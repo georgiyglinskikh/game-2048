@@ -1,3 +1,3 @@
-type CellType = u8;
+pub type CellType = u8;
 
-struct Cell(CellType);
+pub struct Cell(pub CellType);

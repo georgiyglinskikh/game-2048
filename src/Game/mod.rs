@@ -1,15 +1,16 @@
 mod Field;
 
 use ncurses::*;
+use Field::Cell::*;
 
-struct Game {
-    field: Field,
+pub struct Game {
+    field: Field::Field,
 }
 
 impl Game {
     pub fn new(size: usize) -> Self {
         Game {
-            field: Field::new(size),
+            field: Field::Field::new(size),
         }
     }
 
