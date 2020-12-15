@@ -1,16 +1,16 @@
-mod Field;
+mod field;
 
 use ncurses::*;
-use Field::Cell::*;
+use field::cell::*;
 
 pub struct Game {
-    field: Field::Field,
+    field: field::Field,
 }
 
 impl Game {
     pub fn new(size: usize) -> Self {
         Game {
-            field: Field::Field::new(size),
+            field: field::Field::new(size),
         }
     }
 
@@ -19,8 +19,8 @@ impl Game {
 
         self.draw();
 
-        while let input = getch() {
-            match input as u8 {
+        loop {
+            match getch() as u8 {
                 b'q' => break,
                 b'w' | b'a' | b's' | b'd' => {
                     self.add_new(rand::random::<u8>() % 4);

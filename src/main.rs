@@ -1,4 +1,4 @@
-mod Game;
+mod game;
 
 fn main() {
     println!("Enter size of field: ");
@@ -10,7 +10,7 @@ fn main() {
 
     let size: usize = size_str_buf.trim().parse().expect("Size should be a number");
 
-    let mut game = Game::Game::new(size);
+    let mut game = game::Game::new(size);
 
     game.run();
 }
