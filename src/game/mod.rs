@@ -1,7 +1,7 @@
 mod field;
+mod utils;
 
 use ncurses::*;
-use field::cell::*;
 
 pub struct Game {
     field: field::Field,
@@ -20,10 +20,12 @@ impl Game {
         self.draw();
 
         loop {
-            match getch() as u8 {
+            let ch = getch() as u8;
+            match ch {
                 b'q' => break,
                 b'w' | b'a' | b's' | b'd' => {
-                    self.add_new(rand::random::<u8>() % 4);
+                    self.field.add_new(rand::random::<u8>() % 4);
+                    self.field.swipe(utils::Direction::from_ch(ch))
                 }
                 _ => {}
             }
@@ -48,35 +50,5 @@ impl Game {
         }
 
         refresh();
-    }
-
-    fn add_new(&mut self, n: u8) {
-        let positions = {
-            let mut temp_positions: Vec<[usize; 2]> = vec![];
-
-            let mut i = 0;
-
-            while i < n {
-                let (x, y) = (
-                    rand::random::<usize>() % self.field.cells.len(),
-                    rand::random::<usize>() % self.field.cells.len(),
-                );
-
-                if self.field.cells[x][y].0 == 0 {
-                    temp_positions.push([x, y]);
-                    i += 1;
-                }
-            }
-
-            temp_positions
-        };
-
-        for i in positions {
-            let power: u8 = rand::random::<u8>() % 3;
-
-            let number = 2.0_f32.powf(power as f32) as CellType;
-
-            self.field.cells[i[0]][i[1]] = Cell(number);
-        }
     }
 }
